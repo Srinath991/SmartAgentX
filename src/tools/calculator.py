@@ -1,5 +1,5 @@
 from langchain.tools import BaseTool
-from typing import Optional, Type, Any
+from typing import Type
 from pydantic import BaseModel, Field
 
 class CalculatorInput(BaseModel):
@@ -11,7 +11,6 @@ class CalculatorTool(BaseTool):
     args_schema: Type[BaseModel] = CalculatorInput
 
     def _run(self, expression: str) -> str:
-        print('srinath')
         try:
             # Using eval is not recommended for production, but for demo purposes
             result = eval(expression)

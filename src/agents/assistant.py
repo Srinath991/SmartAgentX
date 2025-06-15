@@ -1,7 +1,7 @@
 from langchain.agents import AgentExecutor, create_openai_tools_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain.prompts import ChatPromptTemplate, MessagesPlaceholder
-from langchain.tools import Tool
+from langchain.agents import create_react_agent
+from langchain import hub
 from typing import List
 from ..tools.calculator import CalculatorTool
 from ..tools.pdf_reader import PDFReaderTool
@@ -26,22 +26,10 @@ def create_agent() -> AgentExecutor:
     ]
 
     # Create the prompt template
-    prompt = ChatPromptTemplate.from_messages([
-        ("system", """You are a helpful AI assistant with access to various tools.
-        Use these tools to help answer user questions:
-        - Calculator: For mathematical calculations
-        - PDF Reader: For reading and extracting text from PDF files
-        - Search: For searching information on the internet
-        
-        Always think step by step about which tool would be most appropriate for the task.
-        If you're unsure, explain your reasoning to the user."""),
-        MessagesPlaceholder(variable_name="chat_history"),
-        ("human", "{input}"),
-        MessagesPlaceholder(variable_name="agent_scratchpad"),
-    ])
+    prompt =hub.pull('hwchase17/react')
 
     # Create the agent
-    agent = create_openai_tools_agent(llm, tools, prompt)
+    agent = create_react_agent(llm, tools, prompt)
     
     # Create the agent executor
     agent_executor = AgentExecutor(
