@@ -1,0 +1,30 @@
+[project]
+name = "smart-agent-x"
+version = "0.1.0"
+description = "Multi-Tool AI Assistant using LangChain and FastAPI"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "langchain>=0.1.0",
+    "langchain-google-genai>=0.0.5",
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "python-dotenv>=1.0.0",
+    "pydantic>=2.6.0",
+    "python-multipart>=0.0.6",
+    "PyPDF2>=3.0.0",
+    "pydantic-settings>=2.9.1",
+    "duckduckgo-search>=8.0.4",
+    "langchain-community>=0.3.25",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py39"
