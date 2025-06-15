@@ -7,16 +7,15 @@ class CalculatorInput(BaseModel):
 
 class CalculatorTool(BaseTool):
     name: str = "calculator"
-    description: str = "Useful for performing mathematical calculations"
+    description: str = "Useful for evaluating math expressions like 5 + 3 or (2 * (3 + 2))."
     args_schema: Type[BaseModel] = CalculatorInput
 
     def _run(self, expression: str) -> str:
         try:
-            # Using eval is not recommended for production, but for demo purposes
             result = eval(expression)
-            return f"The result of {expression} is {result}"
+            return str(result)
         except Exception as e:
-            return f"Error calculating expression: {str(e)}"
+            return f"error: {str(e)}"
 
     async def _arun(self, expression: str) -> str:
-        return self._run(expression) 
+        return self._run(expression)

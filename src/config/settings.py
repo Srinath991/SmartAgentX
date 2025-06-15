@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     TEMPERATURE: float = 0.7
     MAX_TOKENS: int = 1000
     LANGSMITH_API_KEY:str=os.getenv("LANGSMITH_API_KEY", "")
+    OPENWEATHER_API_KEY:str=os.getenv("OPENWEATHER_API_KEY", "")
 
     class Config:
         env_file = ".env"

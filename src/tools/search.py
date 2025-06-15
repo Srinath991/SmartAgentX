@@ -1,7 +1,7 @@
 from langchain.tools import BaseTool
 from typing import Type 
 from pydantic import BaseModel, Field
-from langchain_community.tools import DuckDuckGoSearchResults
+from langchain_community.tools import DuckDuckGoSearchRun
 
 class SearchInput(BaseModel):
     query: str = Field(description="The search query to look up")
@@ -14,7 +14,7 @@ class SearchTool(BaseTool):
     def _run(self, query: str) -> str:
         try:
            # This is a simple implementation using DuckDuckGo
-           tool = DuckDuckGoSearchResults()
+           tool = DuckDuckGoSearchRun()
            return tool.invoke(query)
         except Exception as e:
             return f"Error performing search: {str(e)}"

@@ -5,6 +5,8 @@ from langchain import hub
 from typing import List
 from ..tools.calculator import CalculatorTool
 from ..tools.search import SearchTool
+from ..tools.weather import WeatherTool
+from ..tools.dictionary import DictionaryTool
 from ..config.settings import get_settings
 
 settings = get_settings()
@@ -21,10 +23,13 @@ def create_agent() -> AgentExecutor:
     tools = [
         CalculatorTool(),
         SearchTool(),
+        WeatherTool(),
+
+        DictionaryTool(),
     ]
 
     # Create the prompt template
-    prompt =hub.pull('hwchase17/react',api_key=settings.LANGSMITH_API_KEY)
+    prompt = hub.pull('hwchase17/react', api_key=settings.LANGSMITH_API_KEY)
 
     # Create the agent
     agent = create_react_agent(llm, tools, prompt)

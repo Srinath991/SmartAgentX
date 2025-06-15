@@ -1,6 +1,5 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from typing import Optional, List
 from ..agents.assistant import create_agent
 from ..config.settings import get_settings
 
@@ -10,14 +9,12 @@ agent = create_agent()
 
 class Query(BaseModel):
     text: str
-    chat_history: Optional[List[dict]] = []
 
 @app.post("/query")
 async def process_query(query: Query):
     try:
         response = await agent.ainvoke({
             "input": query.text,
-            "chat_history": query.chat_history
         })
         return {"response": response["output"]}
     except Exception as e:
