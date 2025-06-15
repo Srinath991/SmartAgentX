@@ -14,7 +14,7 @@ A powerful AI assistant that can use multiple tools to help answer questions and
 1. Clone the repository:
 ```bash
 git clone https://github.com/Srinath991/SmartAgentX
-cd smart-agent-x
+cd SmartAgentX
 ```
 
 2. Install dependencies using uv:
@@ -27,10 +27,8 @@ uv sync
      ```bash
      cp .env.example .env
      ```
-   - Edit `.env` and add your Google API key:
-     ```
-     GOOGLE_API_KEY=your_actual_google_api_key_here
-     ```
+   - Edit `.env` and add your API keys:
+     
 
 4. Run the FastAPI server:
 ```bash
