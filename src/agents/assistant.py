@@ -1,10 +1,9 @@
-from langchain.agents import AgentExecutor, create_openai_tools_agent
+from langchain.agents import AgentExecutor, create_react_agent
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain.agents import create_react_agent
 from langchain import hub
 from typing import List
 from ..tools.calculator import CalculatorTool
-from ..tools.pdf_reader import PDFReaderTool
 from ..tools.search import SearchTool
 from ..config.settings import get_settings
 
@@ -21,7 +20,6 @@ def create_agent() -> AgentExecutor:
     # Initialize tools
     tools = [
         CalculatorTool(),
-        PDFReaderTool(),
         SearchTool(),
     ]
 
