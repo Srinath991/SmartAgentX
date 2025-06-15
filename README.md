@@ -5,31 +5,34 @@ A powerful AI assistant that can use multiple tools to help answer questions and
 ## Features
 
 - Calculator tool for mathematical calculations
-- PDF reader for extracting text from PDF files
 - Web search capability for finding information online
 - FastAPI backend for easy integration
 - Powered by Google's Gemini model
 
 ## Setup
 
-1. Install dependencies using uv:
+1. Clone the repository:
 ```bash
-uv venv
-source .venv/bin/activate  # On Unix/macOS
-# or
-.venv\Scripts\activate  # On Windows
-uv pip install -e .
+git clone https://github.com/Srinath991/SmartAgentX
+cd smart-agent-x
 ```
 
-2. Create a `.env` file in the root directory with your configuration:
-```
-GOOGLE_API_KEY=your_google_api_key_here
-MODEL_NAME=gemini-pro
-TEMPERATURE=0.7
-MAX_TOKENS=1000
+2. Install dependencies using uv:
+```bash
+uv sync
 ```
 
-3. Run the FastAPI server:
+3. Set up environment variables:
+   - Copy `.env.example` to `.env`:
+     ```bash
+     cp .env.example .env
+     ```
+   - Edit `.env` and add your Google API key:
+     ```
+     GOOGLE_API_KEY=your_actual_google_api_key_here
+     ```
+
+4. Run the FastAPI server:
 ```bash
 uvicorn src.api.main:app --reload
 ```
@@ -46,30 +49,11 @@ uvicorn src.api.main:app --reload
 
 - `GET /health`: Check the health status of the service
 
-## Example Usage
-
-```python
-import requests
-
-response = requests.post(
-    "http://localhost:8000/query",
-    json={
-        "text": "What is 2 + 2?",
-        "chat_history": []
-    }
-)
-print(response.json())
-```
-
 ## Tools
 
 1. Calculator
    - Performs mathematical calculations
    - Example: "Calculate 2 + 2"
-
-2. PDF Reader
-   - Reads and extracts text from PDF files
-   - Example: "Read the first page of document.pdf"
 
 3. Search
    - Searches the web for information
@@ -85,13 +69,21 @@ src/
 │   └── assistant.py
 ├── tools/
 │   ├── calculator.py
-│   ├── pdf_reader.py
 │   └── search.py
 ├── api/
 │   └── main.py
 └── config/
     └── settings.py
 ```
+
+## Environment Variables
+
+The following environment variables can be configured in `.env`:
+
+- `GOOGLE_API_KEY`: Your Google API key (required)
+- `MODEL_NAME`: The model to use (default: gemini-pro)
+- `TEMPERATURE`: Model temperature (default: 0.7)
+- `MAX_TOKENS`: Maximum tokens for responses (default: 1000)
 
 ## License
 
