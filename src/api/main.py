@@ -6,6 +6,7 @@ from ..config.settings import get_settings
 
 app = FastAPI(title="Smart Agent X", description="Multi-Tool AI Assistant")
 settings = get_settings()
+agent = create_agent()
 
 class Query(BaseModel):
     text: str
@@ -14,7 +15,6 @@ class Query(BaseModel):
 @app.post("/query")
 async def process_query(query: Query):
     try:
-        agent = create_agent()
         response = await agent.ainvoke({
             "input": query.text,
             "chat_history": query.chat_history

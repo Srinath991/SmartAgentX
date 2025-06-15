@@ -81,7 +81,8 @@ src/
 The following environment variables can be configured in `.env`:
 
 - `GOOGLE_API_KEY`: Your Google API key (required)
-- `MODEL_NAME`: The model to use (default: gemini-pro)
+- `LANGSMITH_API_KEY`: Your langsmith API key 
+- `MODEL_NAME`: The model to use (default: gemini-1.5-flash)
 - `TEMPERATURE`: Model temperature (default: 0.7)
 - `MAX_TOKENS`: Maximum tokens for responses (default: 1000)
 

@@ -24,7 +24,7 @@ def create_agent() -> AgentExecutor:
     ]
 
     # Create the prompt template
-    prompt =hub.pull('hwchase17/react')
+    prompt =hub.pull('hwchase17/react',api_key=settings.LANGSMITH_API_KEY)
 
     # Create the agent
     agent = create_react_agent(llm, tools, prompt)
