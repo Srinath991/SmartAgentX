@@ -30,7 +30,8 @@
                            class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                            placeholder="Ask me anything...">
                     <button type="submit" 
-                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                            id="send-button"
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </form>
@@ -79,16 +80,24 @@
     </div>
 
     <script>
-        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const sendButton = document.getElementById('send-button');
+
+        chatForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            const input = document.getElementById('user-input');
-            const message = input.value.trim();
+            const message = userInput.value.trim();
             
             if (!message) return;
 
+            // Disable input and button while processing
+            userInput.disabled = true;
+            sendButton.disabled = true;
+            sendButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+
             // Add user message to chat
             addMessage(message, 'user');
-            input.value = '';
+            userInput.value = '';
 
             try {
                 const response = await fetch('/query', {
@@ -106,6 +115,12 @@
                 addMessage(data.response, 'assistant');
             } catch (error) {
                 addMessage('Sorry, there was an error processing your request.', 'error');
+            } finally {
+                // Re-enable input and button
+                userInput.disabled = false;
+                sendButton.disabled = false;
+                sendButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                userInput.focus();
             }
         });
 
