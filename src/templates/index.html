@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Agent X</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-4xl font-bold text-gray-800 mb-2">Smart Agent X</h1>
+            <p class="text-gray-600">Your AI Assistant with Multiple Tools</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="max-w-4xl mx-auto">
+            <!-- Chat Container -->
+            <div class="bg-white rounded-lg shadow-lg p-6 mb-6">
+                <div id="chat-messages" class="h-96 overflow-y-auto mb-4 space-y-4">
+                    <!-- Messages will be inserted here -->
+                </div>
+
+                <!-- Input Form -->
+                <form id="chat-form" class="flex gap-2">
+                    <input type="text" 
+                           id="user-input" 
+                           class="flex-1 p-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                           placeholder="Ask me anything...">
+                    <button type="submit" 
+                            class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Tools Section -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- DuckDuckGo Tool -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-search text-blue-500 mr-2"></i>
+                        <h3 class="font-semibold">DuckDuckGo</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Search the web privately</p>
+                </div>
+                <!-- Calculator Tool -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-calculator text-blue-500 mr-2"></i>
+                        <h3 class="font-semibold">Calculator</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Perform mathematical calculations</p>
+                </div>
+
+                <!-- Weather Tool -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-cloud-sun text-blue-500 mr-2"></i>
+                        <h3 class="font-semibold">Weather</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Get weather alerts for US states</p>
+                </div>
+
+                <!-- Dictionary Tool -->
+                <div class="bg-white rounded-lg shadow p-4">
+                    <div class="flex items-center mb-2">
+                        <i class="fas fa-book text-blue-500 mr-2"></i>
+                        <h3 class="font-semibold">Dictionary</h3>
+                    </div>
+                    <p class="text-sm text-gray-600">Look up word definitions and examples</p>
+                </div>
+
+                
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('chat-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('user-input');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+
+            try {
+                const response = await fetch('/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        text: message,
+                        chat_history: []
+                    })
+                });
+
+                const data = await response.json();
+                addMessage(data.response, 'assistant');
+            } catch (error) {
+                addMessage('Sorry, there was an error processing your request.', 'error');
+            }
+        });
+
+        function addMessage(text, type) {
+            const messagesDiv = document.getElementById('chat-messages');
+            const messageDiv = document.createElement('div');
+            
+            const bgColor = type === 'user' ? 'bg-blue-100' : 
+                           type === 'error' ? 'bg-red-100' : 'bg-gray-100';
+            const textColor = type === 'error' ? 'text-red-800' : 'text-gray-800';
+            
+            // Add alignment classes
+            const alignment = type === 'user' ? 'ml-auto' : 'mr-auto';
+            const maxWidth = 'max-w-[80%]';
+            
+            messageDiv.className = `p-3 rounded-lg ${bgColor} ${textColor} ${alignment} ${maxWidth}`;
+            messageDiv.textContent = text;
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+    </script>
+</body>
+</html>
